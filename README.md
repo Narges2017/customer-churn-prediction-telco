@@ -1,4 +1,4 @@
-# house-prices-advanced-regression Project Template
+# house-prices-advanced-regression Project
 
 An enhanced structure for professional data analysis and machine learning projects.
 
