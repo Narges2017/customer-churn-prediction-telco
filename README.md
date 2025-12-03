@@ -1,33 +1,72 @@
-# house-prices-advanced-regression Project
+# Customer Churn Prediction – Telco
 
-An enhanced structure for professional data analysis and machine learning projects.
+End‑to‑end machine learning project to predict customer churn for a telecom company using the [Telco Customer Churn dataset on Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn). The goal is to identify customers at risk of leaving so the business can target retention campaigns. [web:21]
 
-## Folder Structure
-- data/raw: Original data.
-- data/processed: Cleaned and transformed data.
-- notebooks/exploration: Exploratory analysis notebooks.
-- notebooks/modeling: Model training and evaluation Jupyter notebooks.
-- src/preprocessing: Python scripts for data cleaning.
-- src/models: Model training and testing scripts.
-- src/visualization: Visualization scripts.
-- reports/figures: Plots and images.
-- reports/summary: Analytical reports and insights.
-- reports/model_evaluation: Model performance reports (accuracy, confusion matrix, etc.).
-- reports/metrics_tracking: CSV/JSON logs tracking metrics over multiple runs.
+## 1. Project overview
 
-## How to Use
-1. Place raw data in `data/raw/`.
-2. Process data using scripts in `src/preprocessing/`.
-3. Conduct EDA in `notebooks/exploration/`.
-4. Train and evaluate models in `notebooks/modeling/`.
-5. Save visualizations in `reports/figures/`.
-6. Record evaluation metrics in `reports/model_evaluation/`.
-7. Store performance tracking files in `reports/metrics_tracking/`.
+- Binary classification problem: predict whether a customer will churn (Yes/No).  
+- Data: ~7,000 customers with demographics, subscribed services, billing information, and churn label. [web:21]  
+- Main techniques: data cleaning, exploratory data analysis, one‑hot encoding, Logistic Regression, Random Forest, and feature importance analysis. [attached_file:21]
 
-## Recommended Reports
-- Summary Report: Key insights, findings, and results.
-- Evaluation Report: Precision, Recall, F1-score, ROC-AUC.
-- Metrics Tracking: Evolution of performance across runs.
+## 2. Data
 
-## License
-Released under MIT License.
+The original dataset is not stored in this repository.
+
+- Source: Telco Customer Churn – Kaggle. [web:21]  
+- To reproduce the analysis:
+  1. Download the CSV file from Kaggle.  
+  2. Place it under a local `data/` folder or attach it in Kaggle Notebooks as input.  
+
+Key columns include: contract type, internet service, security/backup services, monthly charges, total charges, and churn indicator. [web:21]
+
+## 3. Methodology
+
+Steps followed in the notebook:
+
+1. **Data cleaning**  
+   - Converted `TotalCharges` from string to numeric and removed 11 rows with missing values.  
+   - Dropped `customerID` (identifier).  
+   - Created target variable `ChurnFlag` (0 = no churn, 1 = churn). [attached_file:21]
+
+2. **Exploratory data analysis (EDA)**  
+   - Examined distributions of `tenure`, `MonthlyCharges`, and `TotalCharges`.  
+   - Analyzed churn rates by contract type, internet service, security/support services, and payment method. [attached_file:21]
+
+3. **Modeling**  
+   - Split data into train and test sets (80/20) with stratification on `ChurnFlag`.  
+   - Built preprocessing + model pipelines using `ColumnTransformer` and `Pipeline`.  
+   - Trained:
+     - Logistic Regression (baseline, final model).  
+     - Random Forest with `class_weight='balanced'` for comparison. [attached_file:21]
+
+4. **Evaluation**  
+   - Reported accuracy, precision, recall, and F1‑score.  
+   - Logistic Regression achieved ~0.80 test accuracy and better recall/F1 on churners than Random Forest, so it was selected as the final model. [attached_file:21]
+
+5. **Feature importance and insights**  
+   - Used Random Forest feature importances to understand drivers of churn.  
+   - Found that high monthly/total charges, low tenure, month‑to‑month contracts, missing security/tech support, and electronic check payments are associated with higher churn risk. [attached_file:21]
+
+## 4. Key business insights
+
+- New, high‑spend customers on month‑to‑month contracts are the most likely to churn.  
+- Customers without OnlineSecurity or TechSupport services show higher churn, suggesting these add‑ons may increase loyalty.  
+- Customers paying by electronic check churn more often than those using other payment methods. [attached_file:21]
+
+The telecom company could prioritize retention offers (discounts, contract upgrades, support bundles) for these high‑risk segments.
+
+## 5. How to run
+
+1. Install dependencies:
+
+
+2. Open the Jupyter notebook:
+
+
+3. Attach or place the Telco churn CSV in the expected `data/` path and run all cells.
+
+## 6. Future work
+
+- Try gradient boosting models (e.g., XGBoost, LightGBM).  
+- Calibrate probabilities and tune decision thresholds for business KPIs.  
+- Deploy the model as a simple Streamlit app for interactive scoring.
